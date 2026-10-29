@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 420799304}
   - component: {fileID: 420799305}
   - component: {fileID: 420799306}
+  - component: {fileID: 420799307}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -233,6 +234,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &420799307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420799303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74886d1b4667a62499f1f42ed1037c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationEvents
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

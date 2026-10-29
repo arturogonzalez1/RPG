@@ -17,6 +17,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
+    private bool canMove = true;
+    private bool canJump = true;
+
+    public void EnableMovementAndJump(bool enable)
+    {
+        canMove = enable;
+        canJump = enable;
+    }
 
     private void Awake()
     {
@@ -45,18 +53,32 @@ public class Player : MonoBehaviour
         xInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
-            Jump();
+            TryToJump();
+
+        if (Input.GetMouseButtonDown(0))
+            TryToAttack();
+    }
+
+    private void TryToAttack()
+    {
+        if (isGrounded)
+        {
+            animator.SetTrigger("attack");
+        }
+    }
+
+    private void TryToJump()
+    {
+        if (isGrounded && canJump)
+            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
     }
 
     private void HandleMovement()
     {
-        rigidBody.linearVelocity = new Vector2(xInput * moveSpeed, rigidBody.linearVelocity.y);
-    }
-
-    private void Jump()
-    {
-        if (isGrounded)
-            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
+        if (canMove)
+            rigidBody.linearVelocity = new Vector2(xInput * moveSpeed, rigidBody.linearVelocity.y);
+        else
+            rigidBody.linearVelocity = new Vector2(0, rigidBody.linearVelocity.y);
     }
 
     private void HandleColission()
