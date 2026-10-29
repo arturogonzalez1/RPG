@@ -5,12 +5,19 @@ public class Player : MonoBehaviour
 {
     private Animator animator;
     private Rigidbody2D rigidBody;
-    
-    [SerializeField]
-    private float moveSpeed = 3.5f;
-    [SerializeField]
-    private float jumpForce = 8;
+
+    [Header("Movement details")]
+    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] private float jumpForce = 8;
     private float xInput;
+    private bool isFacingRight = true;
+
+
+    [Header("Collision details")]
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private LayerMask groundLayer;
+    private bool isGrounded;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -19,16 +26,18 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        HandleColission();
         HandleInput();
         HandleMovement();
         HandleAnimations();
+        HandleFlip();
     }
 
     private void HandleAnimations()
     {
-        var isMoving = rigidBody.linearVelocity.x != 0;
-
-        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("xVelocity", rigidBody.linearVelocity.x);
+        animator.SetFloat("yVelocity", rigidBody.linearVelocity.y);
     }
 
     private void HandleInput()
@@ -46,6 +55,31 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
+        if (isGrounded)
+            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
+    }
+
+    private void HandleColission()
+    {
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+    }
+
+    private void HandleFlip()
+    {
+        if (rigidBody.linearVelocity.x > 0 && !isFacingRight)
+            Flip();
+        else if (rigidBody.linearVelocity.x < 0 && isFacingRight)
+            Flip();
+    }
+
+    private void Flip()
+    {
+        transform.Rotate(0, 180, 0);
+        isFacingRight = !isFacingRight;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
     }
 }
