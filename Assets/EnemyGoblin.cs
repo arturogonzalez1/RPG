@@ -19,6 +19,6 @@ public class EnemyGoblin : Enemy
     [ContextMenu("Steal money")]
     private void StealMoney()
     {
-        Debug.Log(enemyName + " steal's gold from the player!");
+        Debug.Log(EnemyName + " steal's gold from the player!");
     }
 }

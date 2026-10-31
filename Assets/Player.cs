@@ -51,9 +51,13 @@ public class Player : MonoBehaviour
     {
         var enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
 
-        foreach (var enemy in enemyColliders)
+        foreach (var enemyCollider in enemyColliders)
         {
-            enemy.GetComponent<Enemy>().TakeDamage();
+            var enemy = enemyCollider.GetComponent<Enemy>();
+
+            enemy.TakeDamage();
+
+            Debug.Log("Player attacks " + enemy.EnemyName);
         }
 
     }

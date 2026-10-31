@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed;
-    public string enemyName;
+    [SerializeField] protected float MoveSpeed;
+
+    public string EnemyName { get; private set; }
 
     private void Update()
     {
-        MoveAround();
+        //MoveAround();
 
         if (Input.GetKeyDown(KeyCode.F))
             Attack();
@@ -15,16 +16,16 @@ public class Enemy : MonoBehaviour
 
     public virtual void TakeDamage()
     {
-        Debug.Log(enemyName + " takes damage!");
+        Debug.Log(EnemyName + " takes damage!");
     }
 
     protected virtual void Attack()
     {
-        Debug.Log(enemyName + " attacks!");
+        Debug.Log(EnemyName + " attacks!");
     }
 
     private void MoveAround()
     {
-        Debug.Log(enemyName + " moves at speed " + moveSpeed);
+        Debug.Log(EnemyName + " moves at speed " + MoveSpeed);
     }
 }
